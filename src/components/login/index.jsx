@@ -6,14 +6,31 @@ import { useNavigate } from 'react-router-dom';
 // import { Navigate } from 'react-router-dom';
 
 const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     // Handle login logic (e.g., send credentials to a server)
-    console.log('Logging in with:', username, password);
+    console.log('Logging in with:', email, password);
     console.log('Remember Me:', rememberMe);
+    axios.post('https://lexarsmart.onrender.com/api/v1/auth/login', {
+      email: email,
+      password: password,
+    })
+      .then(response => {
+        // Handle successful response (you may want to redirect or show a success message)
+        if (response.data.success) {
+          console.log('Login successful:', response.data);
+          setLoggedIn(true);
+          navigate("/dashboard")
+        }
+      })
+      .catch(error => {
+        // Handle error (you may want to show an error message to the user)
+        console.error('Signup error:', error);
+      });
   };
 
   return (
@@ -25,9 +42,9 @@ const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
         <div>
           <input
             type="email"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder='Email'
             className={classes.input}
           />
