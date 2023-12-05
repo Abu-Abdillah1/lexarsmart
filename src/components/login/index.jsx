@@ -3,18 +3,22 @@ import Logo from "./logo.png"
 import classes from "./index.module.css"
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { PropagateLoader } from "react-spinners";
 // import { Navigate } from 'react-router-dom';
 
 const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false)
+
   const navigate = useNavigate();
 
   const handleLogin = () => {
     // Handle login logic (e.g., send credentials to a server)
     console.log('Logging in with:', email, password);
     console.log('Remember Me:', rememberMe);
+    setLoading(!loading)
     axios.post('https://lexarsmart.onrender.com/api/v1/auth/login', {
       email: email,
       password: password,
@@ -25,11 +29,13 @@ const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
           console.log('Login successful:', response.data);
           setLoggedIn(true);
           navigate("/dashboard")
+          setLoading(!loading)
         }
       })
       .catch(error => {
         // Handle error (you may want to show an error message to the user)
         console.error('Signup error:', error);
+        setLoading(!loading)
       });
   };
 
@@ -38,7 +44,7 @@ const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
       <div className={classes.logo}>
         <img src={Logo} alt="Site logo" />
       </div>
-      <form>
+      <form className={classes.formWrap}>
         <div>
           <input
             type="email"
@@ -86,6 +92,9 @@ const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
           </p>
         </div>
       </form>
+      {loading && <div className={classes.loader}>
+        <PropagateLoader color="#636363" />
+      </div>}
     </div>
   );
 };
@@ -96,12 +105,14 @@ const SignupForm = ({ onLoginClick, loggedIn, setLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [country, setCountry] = useState('');
+  const [loading, setLoading]= useState(false)
   const navigate= useNavigate();
 
 
   const handleSignup = () => {
     // Handle signup logic (e.g., send new credentials to a server)
     console.log('Signing up with:', email, password);
+    setLoading(!loading)
     axios.post('https://lexarsmart.onrender.com/api/v1/auth/register', {
       firstName: firstName,
       lastName: lastName,
@@ -113,6 +124,7 @@ const SignupForm = ({ onLoginClick, loggedIn, setLoggedIn }) => {
         // Handle successful response (you may want to redirect or show a success message)
         console.log('Signup successful:', response.data);
         if (response.data.success) {
+          setLoading(!loading)
           setFirstName('')
           setLastname('')
           setEmail('')
@@ -126,6 +138,7 @@ const SignupForm = ({ onLoginClick, loggedIn, setLoggedIn }) => {
       .catch(error => {
         // Handle error (you may want to show an error message to the user)
         console.error('Signup error:', error);
+        setLoading(!loading)
       });
   };
 
@@ -134,7 +147,7 @@ const SignupForm = ({ onLoginClick, loggedIn, setLoggedIn }) => {
       <div className={classes.logo}>
         <img src={Logo} alt="Site logo" />
       </div>
-      <form>
+      <form className={classes.formWrap}>
         <div>
           <input
             type="text"
@@ -199,6 +212,9 @@ const SignupForm = ({ onLoginClick, loggedIn, setLoggedIn }) => {
           </p>
         </div>
       </form>
+      {loading && <div className={classes.loader}>
+        <PropagateLoader color="#636363" />
+      </div>}
     </div>
   );
 };
