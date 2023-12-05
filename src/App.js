@@ -1,23 +1,20 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import LoginPage from './components/login';
+import { Route, Routes } from 'react-router-dom';
+import Dashboard from './components/dashboard/dashboard';
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false)
+  loggedIn ? console.log("User Logged In") : console.log("No user logged in");
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path='/' element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
+        <Route path="/dashboard" element={<Dashboard loggedIn={loggedIn} setLoggedIn={setLoggedIn} />} />
+      </Routes>
     </div>
   );
 }
