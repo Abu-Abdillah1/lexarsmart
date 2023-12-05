@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Logo from "./logo.png"
 import classes from "./index.module.css"
 import axios from 'axios';
@@ -10,32 +10,57 @@ const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // console.log(email)
+    // console.log(password)
+    // Update local storage values when rememberMe or other state values change
+    if (localStorage.getItem('rememberMe')==='true') {
+      // console.log('yes')
+      setEmail(localStorage.getItem('rememberedEmail'))
+      setPassword(localStorage.getItem('rememberedPassword'))
+      setRememberMe(localStorage.getItem('rememberMe'))
+    }
+    else {
+      localStorage.removeItem('rememberedEmail');
+      localStorage.removeItem('rememberedPassword');
+      localStorage.removeItem('rememberMe');
+    }
+  }, []);
+
   const handleLogin = () => {
-    // Handle login logic (e.g., send credentials to a server)
-    console.log('Logging in with:', email, password);
-    console.log('Remember Me:', rememberMe);
-    setLoading(!loading)
-    axios.post('https://lexarsmart.onrender.com/api/v1/auth/login', {
-      email: email,
-      password: password,
-    })
+    // console.log('Logging in with:', email, password);
+    // console.log('Remember Me:', rememberMe);
+    localStorage.setItem('rememberMe', rememberMe);
+    setLoading(!loading);
+
+    axios
+      .post('https://lexarsmart.onrender.com/api/v1/auth/login', {
+        email: email,
+        password: password,
+      })
       .then(response => {
-        // Handle successful response (you may want to redirect or show a success message)
         if (response.data.success) {
           console.log('Login successful:', response.data);
           setLoggedIn(true);
-          navigate("/dashboard")
-          setLoading(!loading)
+          localStorage.setItem('rememberedEmail', email)
+          localStorage.setItem('rememberedPassword', password)
+          localStorage.setItem('rememberMe', rememberMe)
+          navigate('/dashboard');
+          setLoading(!loading);
+        }
+        else {
+          setLoading(false)
+          // console.log(loading)
         }
       })
       .catch(error => {
-        // Handle error (you may want to show an error message to the user)
-        console.error('Signup error:', error);
-        setLoading(!loading)
+        setLoading(false);
+        // console.log(loading)
+        console.error('Login error:', error);
       });
   };
 
@@ -51,7 +76,7 @@ const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder='Email'
+            placeholder="Email"
             className={classes.input}
           />
         </div>
@@ -61,7 +86,7 @@ const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder='Password'
+            placeholder="Password"
             className={classes.input}
           />
         </div>
@@ -70,7 +95,7 @@ const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
             type="checkbox"
             id="rememberMe"
             checked={rememberMe}
-            onChange={() => setRememberMe(!rememberMe)}
+            onChange={() => setRememberMe(prevState => !prevState)}
           />
           <label htmlFor="rememberMe">Remember Me</label>
         </div>
@@ -99,7 +124,7 @@ const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
   );
 };
 
-const SignupForm = ({ onLoginClick, loggedIn, setLoggedIn }) => {
+const SignupForm = ({ onLoginClick, setLoggedIn }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastname] = useState('');
   const [email, setEmail] = useState('');
