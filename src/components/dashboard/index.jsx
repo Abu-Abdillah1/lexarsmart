@@ -4,7 +4,7 @@ import classes from "./dashboard.module.css"
 
 const DashboardContainer = () => {
   return (
-    <div className={`${classes.wrap}`}>
+    <div className={`${classes.wrap} d-flex`}>
       <Sidebar />
       <main>
         <h3>Main</h3>
