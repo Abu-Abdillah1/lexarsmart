@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./sidebar.module.css"
 import { FaChartPie, FaHome, FaMapMarked, FaServer, FaTasks, FaUserFriends, FaUsers, FaWrench } from "react-icons/fa";
 import SidebarItem from "./sidebarItem";
+import Logo from "./logo.png" 
 
 
 export default function Sidebar() {
@@ -45,12 +46,20 @@ export default function Sidebar() {
             { url: "/kits", name: "Kits" },
           ]
         },
+        { url: "/services", name: "Services" },
+        { url: "/contract", name: "Contract Terms" },
+        { url: "/details", name: "Company Details" },
+        { url: "/leaderboard", name: "Leaderboard" },
+        { url: "/integration", name: "Integration" },
       ],
     },
     // Add more sidebar items as needed
   ];
   return (
     <div className={classes.container}>
+      <div className={classes.header}>
+        <img src={Logo} alt="Site Logo" />
+      </div>
       <div>
         <ul>
           {navItems.map((item, index) => (

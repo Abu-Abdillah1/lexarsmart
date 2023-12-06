@@ -246,7 +246,7 @@ const SignupForm = ({ onLoginClick, setLoggedIn }) => {
 
 const LoginContainer = ({setLoggedIn, loggedIn}) => {
   const [showLogin, setShowLogin] = useState(true);
-  setLoggedIn(false)
+  // setLoggedIn(false)
   const handleSignupClick = () => {
     setShowLogin(false);
   };

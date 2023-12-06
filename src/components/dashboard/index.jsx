@@ -15,7 +15,8 @@ const DashboardContainer = () => {
 export default function Dashboard({ loggedIn }) {
   return (
     <div>
-      {loggedIn ? <DashboardContainer/> : <h2>Please login to access this page</h2>}
+      {/* {loggedIn ? <DashboardContainer/> : <h2>Please login to access this page</h2>} */}
+      <DashboardContainer />
     </div>
   )
 }

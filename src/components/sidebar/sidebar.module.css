@@ -1,4 +1,62 @@
-.container{
-  background-color: #343a40;
-  height: 100svh;
+.container {
+  background-color: #1e1e2d;
+  height: 100vh;
+  width: 20%;
+  overflow-y: scroll;
+}
+
+/* WebKit (Chrome, Safari, Edge) */
+.container::-webkit-scrollbar {
+  width: 5px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: #525252;
+  /* Thumb color */
+  border-radius: 10px;
+  /* Rounded corners */
+}
+.header{
+ display: flex;
+ justify-content: center;
+ width: 100%;
+ margin-bottom: 20px;
+ padding: 10px 0 10px;
+ /* background: #636363; */
+}
+.header>img{
+  width: 40%;
+}
+.container::-webkit-scrollbar-track {
+  background-color: #1e1e2d;
+  /* Track color */
+}
+
+/* Firefox */
+.container {
+  scrollbar-width: thin;
+  scrollbar-color: #525252 #1e1e2d;
+  /* Thumb and track colors */
+}
+.navItem{
+  color: #a2a3b7 !important;
+  border: none !important;
+}
+.navItem>a:hover{
+  background-color: #252535;
+}
+.navItem>a{
+  display: flex !important;
+  column-gap: 20px !important;
+  padding: 9px 25px !important;
+}
+.navItem>a>span{
+  font-size: 15px !important;
+  color: #434d6b !important;
+}
+.navItem>a>span:last-child{
+  font-size: 12px !important;
+  margin: auto 0 !important;
+  margin-top: 6px !important;
+  color: #a2a3b7 !important;
 }
