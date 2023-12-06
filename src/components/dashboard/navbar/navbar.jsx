@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import classes from "./navbar.module.css";
 import ProfileImage from "./profileImage.jpg";
 import BackgroundImage from "./bg-1.jpg"
+import { FaBars } from "react-icons/fa";
+
 
 const Navbar = () => {
   const [isContainerVisible, setIsContainerVisible] = useState(false);
@@ -12,6 +14,9 @@ const Navbar = () => {
   return (
     <div className={classes.container}>
       <div>
+        <button className={classes.menuButton}>
+          <FaBars/>
+        </button>
         <div onClick={handleNameClick} className={`${classes.profile} d-flex ${isContainerVisible && classes.active}`}>
           <span>Hi, </span>
           <span>Brandon Clyde</span>
