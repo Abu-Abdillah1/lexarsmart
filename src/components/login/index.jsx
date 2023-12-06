@@ -254,6 +254,13 @@ const LoginContainer = ({setLoggedIn, loggedIn}) => {
   const handleLoginClick = () => {
     setShowLogin(true);
   };
+  const navigate = useNavigate();
+  useEffect(() => {
+    // If user is logged in, redirect to the dashboard
+    if (loggedIn) {
+      navigate('/dashboard');
+    }
+  }, [loggedIn, navigate]);
 
   return (
     <div className={classes.wrap}>

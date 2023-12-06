@@ -60,7 +60,7 @@ export default function Sidebar() {
       <div className={classes.header}>
         <img src={Logo} alt="Site Logo" />
       </div>
-      <div>
+      <nav>
         <ul>
           {navItems.map((item, index) => (
             <SidebarItem
@@ -72,7 +72,7 @@ export default function Sidebar() {
             />
           ))}
         </ul>
-      </div>
+      </nav>
     </div>
   )
 }
