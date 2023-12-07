@@ -45,7 +45,7 @@ function App() {
       {/* Routes */}
       <Routes>
         <Route
-          path='/'
+          path='/' exact
           element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
         />
         <Route
