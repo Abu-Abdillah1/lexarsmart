@@ -1,7 +1,9 @@
-.main{
+.main {
   width: 100%;
   background-color: #f8f9fa;
+  transition: all 1.3s ease-in-out;
 }
-.wrap{
+
+.wrap {
   position: relative;
 }

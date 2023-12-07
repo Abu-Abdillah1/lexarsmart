@@ -1,23 +1,32 @@
-import React from "react";
-import Sidebar from "../sidebar/sidebar";
-import classes from "./dashboard.module.css"
+import React, { useState } from "react";
+import classes from "./dashboard.module.css";
 import Navbar from "./navbar/navbar";
+import Sidebar from "../sidebar/sidebar";
 
-const DashboardContainer = () => {
+const DashboardContainer = ({ toggleSidebar, sidebarVisible }) => {
   return (
     <div className={`${classes.wrap} d-flex`}>
-      <Sidebar />
-      <main className={classes.main}>
-        <Navbar/> 
+      <Sidebar visible={sidebarVisible} />
+      <main className={classes.main} style={{ width: !sidebarVisible && `20000vw` }}>
+        <Navbar toggleSidebar={toggleSidebar} />
         <h3>Main</h3>
       </main>
     </div>
-  )
-}
-export default function Dashboard({ loggedIn }) {
+  );
+};
+
+const Dashboard = ({ loggedIn }) => {
+  const [sidebarVisible, setSidebarVisible] = useState(true);
+
+  const toggleSidebar = () => {
+    setSidebarVisible((prev) => !prev);
+  };
+
   return (
     <div>
-      <DashboardContainer />
+      <DashboardContainer toggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
     </div>
-  )
-}
+  );
+};
+
+export default Dashboard;
