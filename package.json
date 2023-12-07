@@ -1,6 +1,7 @@
 {
   "name": "lexarsmart",
   "version": "0.1.0",
+  "homepage": "https://ridalord.github.io/lexarsmart",
   "private": true,
   "dependencies": {
     "@fontsource/karla": "^5.0.17",
