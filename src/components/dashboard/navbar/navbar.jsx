@@ -1,17 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./navbar.module.css";
 import ProfileImage from "./profileImage.jpg";
 import BackgroundImage from "./bg-1.jpg";
 import { FaBars } from "react-icons/fa";
 
-const Navbar = ({ toggleSidebar, sidebarVisible }) => {
+const Navbar = ({ toggleSidebar, sidebarVisible, activeComponent, userObject }) => {
   const [isContainerVisible, setIsContainerVisible] = useState(false);
+  const [firstName, setFirstName] = useState(null);
+  const[lastName, setLastname]= useState(null)
+
+  useEffect(() => {
+    if (userObject) {
+      setFirstName(userObject.firstName);
+      setLastname(userObject.lastName)
+    }
+  }, [userObject]);
+
   const handleNameClick = () => {
     setIsContainerVisible((prev) => !prev);
   };
 
   return (
-    <div className={classes.container} style={{width: !sidebarVisible && '100vw'}}>
+    <div className={classes.container} style={{ width: !sidebarVisible && '100vw' }}>
       <div>
         <button className={classes.menuButton} onClick={toggleSidebar}>
           <FaBars />
@@ -22,7 +32,7 @@ const Navbar = ({ toggleSidebar, sidebarVisible }) => {
             }`}
         >
           <span>Hi, </span>
-          <span>Brandon Clyde</span>
+          <span>{firstName && (firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase())} {(lastName.charAt(0).toUpperCase() + lastName.slice(1).toLowerCase())}</span>
           <div
             className={classes.profileImage}
             style={{ backgroundImage: `url(${ProfileImage})` }}
@@ -39,14 +49,18 @@ const Navbar = ({ toggleSidebar, sidebarVisible }) => {
                 alt="Profile"
                 className={classes.profileImageDropdown}
               />
-              <div>Brandon Clyde</div>
+              <div>{firstName} {lastName}</div>
             </div>
             This is the popped container.
           </div>
         )}
       </div>
       <div>
-        <h5>Dashboard</h5>
+        <h5>
+          {activeComponent === 'dashboard' && 'Dashboard'}
+          {activeComponent === 'users' && 'Users'}
+          {activeComponent === 'territory' && 'Territory'}
+        </h5>
       </div>
     </div>
   );

@@ -7,6 +7,14 @@
   position: absolute;
   overflow-y: scroll;
 }
+.main::-webkit-scrollbar {
+  width: 5px;
+}
+
+.main::-webkit-scrollbar-thumb {
+  background-color: #525252;
+  border-radius: 10px;
+}
 .wrap {
   position: relative;
 }

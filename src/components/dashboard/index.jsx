@@ -4,8 +4,9 @@ import Navbar from "./navbar/navbar";
 import Sidebar from "../sidebar/sidebar";
 import Main from "./main";
 import Territory from "./territory/Territory";
+import Users from "../users/users";
 
-const DashboardContainer = ({ toggleSidebar, sidebarVisible }) => {
+const DashboardContainer = ({ toggleSidebar, sidebarVisible, userObject }) => {
   const [activeComponent, setActiveComponent] = useState("dashboard");
 
   const handleLinkClick = (component) => {
@@ -21,10 +22,11 @@ const DashboardContainer = ({ toggleSidebar, sidebarVisible }) => {
     <div className={`${classes.wrap} d-flex`}>
       <Sidebar visible={sidebarVisible} setSidebarVisible={toggleSidebar} onLinkClick={handleLinkClick} />
       <main className={classes.main} style={{width: !sidebarVisible && `100vw`,position: !sidebarVisible && 'absolute'}}>
-        <Navbar toggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
+        <Navbar toggleSidebar={toggleSidebar} userObject={userObject} activeComponent={activeComponent} sidebarVisible={sidebarVisible} />
         <div className={classes.content}>
           {activeComponent === "dashboard" && <Main />}
           {activeComponent === "territory" && <Territory />}
+          {activeComponent==="users" && <Users/>}
         </div>
         <div className={classes.footer}>
           2023 &copy; Lexarsmart
@@ -34,7 +36,7 @@ const DashboardContainer = ({ toggleSidebar, sidebarVisible }) => {
   );
 };
 
-const Dashboard = ({ loggedIn }) => {
+const Dashboard = ({ userObject }) => {
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
   const toggleSidebar = () => {
@@ -43,7 +45,7 @@ const Dashboard = ({ loggedIn }) => {
 
   return (
     <div>
-      <DashboardContainer toggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
+      <DashboardContainer userObject={userObject} toggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
     </div>
   );
 };

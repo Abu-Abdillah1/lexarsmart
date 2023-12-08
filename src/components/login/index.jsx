@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { PropagateLoader } from "react-spinners";
 // import { Navigate } from 'react-router-dom';
 
-const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
+const LoginForm = ({ onSignupClick, token, setToken, loggedIn, setLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -29,7 +29,8 @@ const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
       localStorage.removeItem('rememberedPassword');
       localStorage.removeItem('rememberMe');
     }
-  }, []);
+    
+  }, [token]);
 
   const handleLogin = () => {
     // console.log('Logging in with:', email, password);
@@ -45,12 +46,15 @@ const LoginForm = ({ onSignupClick, loggedIn, setLoggedIn }) => {
       .then(response => {
         if (response.data.success) {
           console.log('Login successful:', response.data);
+          const userToken = response.data.token
+          setToken(userToken)
           setLoggedIn(true);
           localStorage.setItem('rememberedEmail', email)
           localStorage.setItem('rememberedPassword', password)
           localStorage.setItem('rememberMe', rememberMe)
           navigate('/dashboard');
           setLoading(!loading);
+          console.log(response.data.token)
         }
         else {
           setLoading(false)
@@ -244,7 +248,7 @@ const SignupForm = ({ onLoginClick, setLoggedIn }) => {
   );
 };
 
-const LoginContainer = ({setLoggedIn, loggedIn}) => {
+const LoginContainer = ({setLoggedIn, setToken, token, loggedIn}) => {
   const [showLogin, setShowLogin] = useState(true);
   // setLoggedIn(false)
   const handleSignupClick = () => {
@@ -265,9 +269,9 @@ const LoginContainer = ({setLoggedIn, loggedIn}) => {
   return (
     <div className={classes.wrap}>
       {showLogin ? (
-        <LoginForm loggedIn={loggedIn} setLoggedIn={setLoggedIn} onSignupClick={handleSignupClick} />
+        <LoginForm loggedIn={loggedIn} setToken={setToken} token={token} setLoggedIn={setLoggedIn} onSignupClick={handleSignupClick} />
       ) : (
-          <SignupForm loggedIn={loggedIn} setLoggedIn={setLoggedIn} onLoginClick={handleLoginClick} />
+          <SignupForm loggedIn={loggedIn} setLoggedIn={setLoggedIn} setToken={setToken} token={token} onLoginClick={handleLoginClick} />
       )}
     </div>
   );

@@ -5,9 +5,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from './components/login';
 import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import Dashboard from './components/dashboard';
+import axios from 'axios'
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [token, setToken] = useState(null)
+  const [userObject, setUserObject] = useState(null)
+
 
   // Track the last activity time
   const lastActivityTime = useRef(Date.now());
@@ -33,12 +37,32 @@ function App() {
         navigate('/');
       }
     };
+    if (token) {
+      console.log('token set', token)
+
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      };
+
+      axios.get('https://lexarsmart.onrender.com/api/v1/users/profile', config)
+        .then(response => {
+          console.log(response.data);
+          setUserObject(response.data)
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      
+    }
 
     const inactivityTimer = setInterval(checkInactivity, 60 * 10000); // Check every minute
 
     // Clear the timer when the component is unmounted
     return () => clearInterval(inactivityTimer);
-  }, [navigate]);
+  }, [navigate, token, userObject]);
+  // console.log(userObject)
 
   return (
     <div className="App" onMouseMove={handleUserActivity} onClick={handleUserActivity}>
@@ -46,11 +70,11 @@ function App() {
       <Routes>
         <Route
           path='/' exact
-          element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
+          element={<LoginPage loggedIn={loggedIn} token={token} setToken={setToken} setLoggedIn={setLoggedIn} />}
         />
         <Route
           path="/dashboard/*"
-          element={isUserLoggedIn() ? <Dashboard /> : <Navigate to="/" replace={true} />}
+          element={isUserLoggedIn() ? <Dashboard userObject={ userObject} /> : <Navigate to="/" replace={true} />}
         />
       </Routes>
     </div>
