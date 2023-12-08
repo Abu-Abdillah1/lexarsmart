@@ -4,14 +4,14 @@ import ProfileImage from "./profileImage.jpg";
 import BackgroundImage from "./bg-1.jpg";
 import { FaBars } from "react-icons/fa";
 
-const Navbar = ({ toggleSidebar }) => {
+const Navbar = ({ toggleSidebar, sidebarVisible }) => {
   const [isContainerVisible, setIsContainerVisible] = useState(false);
   const handleNameClick = () => {
     setIsContainerVisible((prev) => !prev);
   };
 
   return (
-    <div className={classes.container}>
+    <div className={classes.container} style={{width: !sidebarVisible && '100vw'}}>
       <div>
         <button className={classes.menuButton} onClick={toggleSidebar}>
           <FaBars />

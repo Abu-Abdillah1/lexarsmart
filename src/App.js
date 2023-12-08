@@ -34,7 +34,7 @@ function App() {
       }
     };
 
-    const inactivityTimer = setInterval(checkInactivity, 60 * 1000); // Check every minute
+    const inactivityTimer = setInterval(checkInactivity, 60 * 10000); // Check every minute
 
     // Clear the timer when the component is unmounted
     return () => clearInterval(inactivityTimer);
@@ -49,7 +49,7 @@ function App() {
           element={<LoginPage loggedIn={loggedIn} setLoggedIn={setLoggedIn} />}
         />
         <Route
-          path="/dashboard"
+          path="/dashboard/*"
           element={isUserLoggedIn() ? <Dashboard /> : <Navigate to="/" replace={true} />}
         />
       </Routes>

@@ -5,7 +5,12 @@ import SidebarItem from "./sidebarItem";
 import Logo from "./logo.png"
 
 
-export default function Sidebar({ visible }) {
+export default function Sidebar({ visible, onLinkClick }) {
+  const handleLinkClick = (event, component) => {
+    // Prevent the default behavior of the link
+    event.preventDefault();
+    onLinkClick(component);
+  };
   const navItems = [
     { icon: <FaHome />, url: "/dashboard", name: "Dashboard" },
     { icon: <FaMapMarked />, url: "/territory", name: "Territory" },
@@ -57,8 +62,6 @@ export default function Sidebar({ visible }) {
   ];
   return (
     <div className={`${classes.container}`} style={{ transform: visible ? 'translateX(0)' : 'translateX(-100%)' }}>
-
-    
       <div >
         <div className={classes.header}>
           <img src={Logo} alt="Site Logo" />
@@ -72,6 +75,7 @@ export default function Sidebar({ visible }) {
                 url={item.url}
                 name={item.name}
                 dropdownItems={item.dropdownItems}
+                handleLinkClick={(event) => handleLinkClick(event, item.url.replace('/', '').toLowerCase())}
               />
             ))}
           </ul>

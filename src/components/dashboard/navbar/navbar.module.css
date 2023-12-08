@@ -1,9 +1,10 @@
 .container{
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 80%;
   background: #fff;
-  position: relative;
+  position: fixed;
+  transition: all 1.2s ease-in-out;
 }
 .container>div{
   display: flex;
