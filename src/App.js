@@ -12,7 +12,6 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [userObject, setUserObject] = useState(JSON.parse(localStorage.getItem('userObject')) || null);
 
-
   // Track the last activity time
   const lastActivityTime = useRef(Date.now());
 
@@ -37,6 +36,9 @@ function App() {
         navigate('/');
       }
     };
+    // if (loggedIn) {
+    //   navigate('/dashboard');
+    // }
     if (token) {
       console.log('token set', token)
 
@@ -61,8 +63,10 @@ function App() {
 
     // Clear the timer when the component is unmounted
     return () => clearInterval(inactivityTimer);
+    
   }, [navigate, token, userObject,isUserLoggedIn]);
   // console.log(userObject)
+  
 
   return (
     <div className="App" onMouseMove={handleUserActivity} onClick={handleUserActivity}>
@@ -74,7 +78,7 @@ function App() {
         />
         <Route
           path="/dashboard/*"
-          element={isUserLoggedIn() ? <Dashboard userObject={ userObject} token={token} /> : <Navigate to="/" replace={true} />}
+          element={isUserLoggedIn() ? <Dashboard userObject={ userObject} token={token} setLoggedIn={setLoggedIn} /> : <Navigate to="/" replace={true} />}
         />
       </Routes>
     </div>

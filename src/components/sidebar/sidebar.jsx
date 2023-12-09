@@ -1,16 +1,25 @@
-import React from "react";
+import {React, useState, useEffect} from "react";
 import classes from "./sidebar.module.css"
 import { FaChartPie, FaHome, FaMapMarked, FaServer, FaTasks, FaUserFriends, FaUsers, FaWrench } from "react-icons/fa";
 import SidebarItem from "./sidebarItem";
 import Logo from "./logo.png"
 
 
-export default function Sidebar({ visible, onLinkClick }) {
+export default function Sidebar({ visible, onLinkClick, userObject }) {
+  const [userRole, setUserRole]=useState(null)
   const handleLinkClick = (event, component) => {
     // Prevent the default behavior of the link
     event.preventDefault();
     onLinkClick(component);
   };
+  useEffect(() => {
+    if (userObject) {
+      console.log(userObject)
+      setUserRole(userObject.role);
+    }
+  }, [userObject]);
+  console.log(userRole)
+
   const navItems = [
     { icon: <FaHome />, url: "/dashboard", name: "Dashboard" },
     { icon: <FaMapMarked />, url: "/territory", name: "Territory" },
@@ -33,10 +42,10 @@ export default function Sidebar({ visible, onLinkClick }) {
         { url: "/proposals", name: "Proposals" },
         { url: "/activity", name: "Activity" },
       ],
-    },
-    { icon: <FaUsers />, url: "/users", name: "Users" },
-    { icon: <FaUserFriends />, url: "/teams", name: "Manage Teams" },
-    {
+    }, (userRole === 'admin') && (
+    { icon: <FaUsers />, url: "/users", name: "Users" }),
+    (userRole === 'admin') && ({ icon: <FaUserFriends />, url: "/teams", name: "Manage Teams" }),
+    (userRole === 'admin') && ({
       icon: <FaWrench />,
       url: "/configuration",
       name: "Configuration",
@@ -57,7 +66,7 @@ export default function Sidebar({ visible, onLinkClick }) {
         { url: "/leaderboard", name: "Leaderboard" },
         { url: "/integration", name: "Integration" },
       ],
-    },
+    }),
     // Add more sidebar items as needed
   ];
   return (

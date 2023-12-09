@@ -71,6 +71,6 @@
     position: absolute;
     width: 100%;
     color: rgba(0, 0, 0, 0.425);
-    z-index: 2;
+    z-index: 3;
   }
 }

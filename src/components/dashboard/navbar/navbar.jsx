@@ -4,15 +4,19 @@ import ProfileImage from "./profileImage.jpg";
 import BackgroundImage from "./bg-1.jpg";
 import { FaBars } from "react-icons/fa";
 import Next from "./next.png"
+import Carlendar from "./calendar.png"
+import ShoopingBasket from "./shopping-basket.png"
+import CreditCard from "./credit-card.png"
+import Lifebuoy from "./lifebuoy.png"
 
-const Navbar = ({ toggleSidebar, sidebarVisible, activeComponent, userObject }) => {
+const Navbar = ({ toggleSidebar, sidebarVisible, activeComponent, userObject, setLoggedIn }) => {
   const [isContainerVisible, setIsContainerVisible] = useState(false);
   const [firstName, setFirstName] = useState(null);
   const[lastName, setLastname]= useState(null)
 
   useEffect(() => {
     if (userObject) {
-      console.log(userObject)
+      // console.log(userObject)
       setFirstName(userObject.firstName);
       setLastname(userObject.lastName)
     }
@@ -21,6 +25,9 @@ const Navbar = ({ toggleSidebar, sidebarVisible, activeComponent, userObject }) 
   const handleNameClick = () => {
     setIsContainerVisible((prev) => !prev);
   };
+  const handleLogOut = () => {
+    setLoggedIn(false)
+  }
 
   return (
     <div className={classes.container} style={{ width: !sidebarVisible && '100vw' }}>
@@ -53,17 +60,61 @@ const Navbar = ({ toggleSidebar, sidebarVisible, activeComponent, userObject }) 
               />
               <div>{firstName} {lastName}</div>
             </div>
-            <ul>
+            <ul className={classes.profileDropdown}>
               <li>
                 <div>
-                  <div></div>
+                  <div>
+                    <img src={Carlendar} alt="Carlendar" />
+                  </div>
                   <div>
                     <h4>My Profile</h4>
                     <p>Account Settings and more</p>
                   </div>
                 </div>
-                <img src={Next} alt="Next" />
+                <div>
+                  <img src={Next} alt="Next" />
+                </div>
               </li>
+              <li>
+                <div>
+                  <div>
+                    <img src={ShoopingBasket} alt="Subscription" />
+                  </div>
+                  <div>
+                    <h4>Manage Subscription</h4>
+                  </div>
+                </div>
+                <div>
+                  <img src={Next} alt="Next" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <div>
+                    <img src={CreditCard} alt="Billing" />
+                  </div>
+                  <div>
+                    <h4>Billing</h4>
+                  </div>
+                </div>
+                <div>
+                  <img src={Next} alt="Next" />
+                </div>
+              </li>
+              <li>
+                <div>
+                  <div>
+                    <img src={Lifebuoy} alt="Support" />
+                  </div>
+                  <div>
+                    <h4>Support</h4>
+                  </div>
+                </div>
+                <div>
+                  <img src={Next} alt="Next" />
+                </div>
+              </li>
+              <button onClick={handleLogOut}>Sign Out</button>
             </ul>
           </div>
         )}

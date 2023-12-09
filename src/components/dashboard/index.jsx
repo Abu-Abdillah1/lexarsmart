@@ -6,7 +6,7 @@ import Main from "./main";
 import Territory from "./territory/Territory";
 import Users from "../users/users";
 
-const DashboardContainer = ({ toggleSidebar, sidebarVisible, userObject, token }) => {
+const DashboardContainer = ({ toggleSidebar, sidebarVisible, userObject, token, setLoggedIn }) => {
   const [activeComponent, setActiveComponent] = useState("dashboard");
 
   const handleLinkClick = (component) => {
@@ -20,9 +20,9 @@ const DashboardContainer = ({ toggleSidebar, sidebarVisible, userObject, token }
 
   return (
     <div className={`${classes.wrap} d-flex`}>
-      <Sidebar visible={sidebarVisible} setSidebarVisible={toggleSidebar} onLinkClick={handleLinkClick} />
+      <Sidebar visible={sidebarVisible} setSidebarVisible={toggleSidebar} onLinkClick={handleLinkClick} userObject={userObject} />
       <main className={classes.main} style={{width: !sidebarVisible && `100vw`,position: !sidebarVisible && 'absolute'}}>
-        <Navbar toggleSidebar={toggleSidebar} userObject={userObject} activeComponent={activeComponent} sidebarVisible={sidebarVisible} />
+        <Navbar toggleSidebar={toggleSidebar} userObject={userObject} setLoggedIn={setLoggedIn} activeComponent={activeComponent} sidebarVisible={sidebarVisible} />
         <div className={classes.content}>
           {activeComponent === "dashboard" && <Main userObject={userObject} />}
           {activeComponent === "territory" && <Territory />}
@@ -36,7 +36,7 @@ const DashboardContainer = ({ toggleSidebar, sidebarVisible, userObject, token }
   );
 };
 
-const Dashboard = ({ userObject, token }) => {
+const Dashboard = ({ userObject, token, setLoggedIn }) => {
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
   const toggleSidebar = () => {
@@ -45,7 +45,7 @@ const Dashboard = ({ userObject, token }) => {
 
   return (
     <div>
-      <DashboardContainer userObject={userObject} token={token} toggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
+      <DashboardContainer userObject={userObject} token={token} setLoggedIn={setLoggedIn} toggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
     </div>
   );
 };
