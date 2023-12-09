@@ -24,7 +24,7 @@ const DashboardContainer = ({ toggleSidebar, sidebarVisible, userObject }) => {
       <main className={classes.main} style={{width: !sidebarVisible && `100vw`,position: !sidebarVisible && 'absolute'}}>
         <Navbar toggleSidebar={toggleSidebar} userObject={userObject} activeComponent={activeComponent} sidebarVisible={sidebarVisible} />
         <div className={classes.content}>
-          {activeComponent === "dashboard" && <Main />}
+          {activeComponent === "dashboard" && <Main userObject={userObject} />}
           {activeComponent === "territory" && <Territory />}
           {activeComponent==="users" && <Users/>}
         </div>

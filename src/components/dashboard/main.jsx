@@ -1,12 +1,22 @@
 
-import React from "react";
+import {React, useState, useEffect} from "react";
 import Select from "./select/select";
 import classes from "./dashboard.module.css"
 import User from "./user.png"
 import File from "./folder.png"
 import CardTemplate from "./cardTemplate/cardTemplate";
 
-const Main = () => {
+const Main = ({ userObject }) => {
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastname] = useState(null)
+
+  useEffect(() => {
+    if (userObject) {
+      // console.log(userObject)
+      setFirstName(userObject.firstName);
+      setLastname(userObject.lastName)
+    }
+  }, [userObject]);
   return (
     <div className={ classes.mainContainer}>
       <div className={classes.mainWrap}>
@@ -36,10 +46,10 @@ const Main = () => {
             </div>
           </div>
         </div>
-        <CardTemplate title="Most Doors Knocked" name="Brandon Clyde" className={classes.third} />
-        <CardTemplate title="Top Sales Rep" name="Brandon Clyde" className={classes.fourth} />
-        <CardTemplate title="Best Closing Ratio" name="Brandon Clyde" className={classes.fifth} />
-        <CardTemplate title="Team Sales Ranking" name="Team 1 Phone" className={classes.sixth} />
+        <CardTemplate userObject={userObject} title="Most Doors Knocked" name={firstName + ' ' +lastName} className={classes.third} />
+        <CardTemplate userObject={userObject} title="Top Sales Rep" name={firstName + ' ' + lastName} className={classes.fourth} />
+        <CardTemplate userObject={userObject} title="Best Closing Ratio" name={firstName + ' ' + lastName} className={classes.fifth} />
+        <CardTemplate userObject={userObject} title="Team Sales Ranking" name="Team 1 Phone" className={classes.sixth} />
       </div>
     </div>
   );

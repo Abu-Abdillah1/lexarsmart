@@ -1,4 +1,4 @@
-import React from "react"
+import {React} from "react"
 import classes from "./cardTemplate.module.css"
 import Select from "../select/select"
 import ProfileImage from "./profileImage.jpg"
@@ -6,6 +6,7 @@ import ProfileImage from "./profileImage.jpg"
 
 
 export default function CardTemplate(props) {
+  
   return (
     <div className={`${classes.container} ${props.className || ''}`}>
       <div className={classes.containerTop}>

@@ -11,6 +11,7 @@ const Navbar = ({ toggleSidebar, sidebarVisible, activeComponent, userObject }) 
 
   useEffect(() => {
     if (userObject) {
+      console.log(userObject)
       setFirstName(userObject.firstName);
       setLastname(userObject.lastName)
     }
@@ -32,7 +33,7 @@ const Navbar = ({ toggleSidebar, sidebarVisible, activeComponent, userObject }) 
             }`}
         >
           <span>Hi, </span>
-          <span>{firstName && (firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase())} {(lastName.charAt(0).toUpperCase() + lastName.slice(1).toLowerCase())}</span>
+          <span>{firstName} { lastName}</span>
           <div
             className={classes.profileImage}
             style={{ backgroundImage: `url(${ProfileImage})` }}
