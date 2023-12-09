@@ -1,5 +1,5 @@
 // import logo from './logo.svg';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from './components/login';
@@ -9,8 +9,8 @@ import axios from 'axios'
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [token, setToken] = useState(null)
-  const [userObject, setUserObject] = useState(null)
+  const [token, setToken] = useState(localStorage.getItem('token') || null);
+  const [userObject, setUserObject] = useState(JSON.parse(localStorage.getItem('userObject')) || null);
 
 
   // Track the last activity time
@@ -20,9 +20,9 @@ function App() {
   const navigate = useNavigate();
 
   // Check if the user is logged in and has not exceeded the inactivity time limit
-  const isUserLoggedIn = () => {
+  const isUserLoggedIn = useCallback(() => {
     return loggedIn && Date.now() - lastActivityTime.current < 30 * 60 * 1000;
-  };
+  },[loggedIn]);
 
   // Update the last activity time when there's user interaction
   const handleUserActivity = () => {
@@ -61,7 +61,7 @@ function App() {
 
     // Clear the timer when the component is unmounted
     return () => clearInterval(inactivityTimer);
-  }, [navigate, token, userObject]);
+  }, [navigate, token, userObject,isUserLoggedIn]);
   // console.log(userObject)
 
   return (
@@ -74,7 +74,7 @@ function App() {
         />
         <Route
           path="/dashboard/*"
-          element={isUserLoggedIn() ? <Dashboard userObject={ userObject} /> : <Navigate to="/" replace={true} />}
+          element={isUserLoggedIn() ? <Dashboard userObject={ userObject} token={token} /> : <Navigate to="/" replace={true} />}
         />
       </Routes>
     </div>

@@ -6,7 +6,7 @@ import Main from "./main";
 import Territory from "./territory/Territory";
 import Users from "../users/users";
 
-const DashboardContainer = ({ toggleSidebar, sidebarVisible, userObject }) => {
+const DashboardContainer = ({ toggleSidebar, sidebarVisible, userObject, token }) => {
   const [activeComponent, setActiveComponent] = useState("dashboard");
 
   const handleLinkClick = (component) => {
@@ -26,7 +26,7 @@ const DashboardContainer = ({ toggleSidebar, sidebarVisible, userObject }) => {
         <div className={classes.content}>
           {activeComponent === "dashboard" && <Main userObject={userObject} />}
           {activeComponent === "territory" && <Territory />}
-          {activeComponent==="users" && <Users/>}
+          {activeComponent === "users" && <Users userObject={userObject} token={token} />}
         </div>
         <div className={classes.footer}>
           2023 &copy; Lexarsmart
@@ -36,7 +36,7 @@ const DashboardContainer = ({ toggleSidebar, sidebarVisible, userObject }) => {
   );
 };
 
-const Dashboard = ({ userObject }) => {
+const Dashboard = ({ userObject, token }) => {
   const [sidebarVisible, setSidebarVisible] = useState(true);
 
   const toggleSidebar = () => {
@@ -45,7 +45,7 @@ const Dashboard = ({ userObject }) => {
 
   return (
     <div>
-      <DashboardContainer userObject={userObject} toggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
+      <DashboardContainer userObject={userObject} token={token} toggleSidebar={toggleSidebar} sidebarVisible={sidebarVisible} />
     </div>
   );
 };

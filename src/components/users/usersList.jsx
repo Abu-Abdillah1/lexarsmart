@@ -7,12 +7,12 @@ import Next from "./next.png"
 
 export default function Userslist(props) {
   return (
-    <li className={classes.listWrap}>
+    <li className={classes.listWrap} id={props.id}>
       <div>
         <span style={{backgroundImage: `url(${User})`}}></span>
-        <span>Brandon Clyde</span>
+        <span>{props.name}</span>
       </div>
-      <div>Admin <img src={Next} alt="Next" /></div>
+      <div>{props.role} <img src={Next} alt="Next" /></div>
     </li>
   )
 }

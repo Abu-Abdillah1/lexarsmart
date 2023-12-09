@@ -164,4 +164,5 @@
 }
 .usersList>div:nth-child(2){
   min-height: 23vh;
+  position: relative;
 }

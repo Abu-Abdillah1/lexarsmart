@@ -1,13 +1,30 @@
-import {React, useState} from "react"
+import {React, useState, useEffect} from "react"
 import classes from "./users.module.css"
 import Equalizer from "./equalizer.png"
 import Search from "./magnifying-glass.png"
 import Userslist from "./usersList"
+import axios from 'axios'
+import { PropagateLoader } from "react-spinners";
 
 
-export default function Users() {
+
+export default function Users({userObject, token}) {
   const [toggleFilter, setToggleFilter] = useState(false)
   const [filteredValue, setFilteredValue] = useState('all')
+  const [loading, setLoading] = useState(false);
+  const [allUsers, setAllUsers] = useState(null)
+  const [filteredUsers, setFilteredUsers]= useState(null)
+  // const [users, set]
+
+
+  // useEffect(() => {
+  //   if (userObject) {
+  //     // console.log(userObject)
+  //     setFirstName(userObject.firstName);
+  //     setLastname(userObject.lastName)
+  //     setRole(userObject.role)
+  //   }
+  // }, [userObject]);
   const handleToggleFilter = () => {
     setToggleFilter(!toggleFilter)
     console.log(toggleFilter)
@@ -15,7 +32,41 @@ export default function Users() {
   const handleClickFilter = (event) => {
     const clickedItem = event.target.textContent.toLowerCase();
     setFilteredValue(clickedItem)
+    setLoading(!loading)
   }
+  useEffect(() => {
+    if (token) {
+      setLoading(!loading)
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      };
+
+        axios.get('https://lexarsmart.onrender.com/api/v1/users', config)
+          .then(response => {
+            console.log(response.data);
+            setAllUsers(response.data.data);
+            setLoading(!loading);
+            // setFilteredUsers(response.data.data)
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            setLoading(false);
+          });
+      if (filteredValue === 'all') {
+        setFilteredUsers(allUsers)
+      } else {
+        const filteredUserList = allUsers.filter(user => user.role === filteredValue);
+        setFilteredUsers(filteredUserList);
+        setLoading(false);
+      }
+    }
+  }, [token, allUsers, filteredValue]);
+
+
+  // console.log(allUsers)
+
   // console.log(filteredValue)
   return (
     <div className={classes.container}>
@@ -26,7 +77,7 @@ export default function Users() {
           {toggleFilter && (
             <ul className={classes.filterList}>
               <li onClick={handleClickFilter}>All</li>
-              <li onClick={handleClickFilter}>Users</li>
+              <li onClick={handleClickFilter}>User</li>
               <li onClick={handleClickFilter}>Admin</li>
             </ul>
           )}
@@ -57,8 +108,18 @@ export default function Users() {
           <div>Active Users</div>
           <div>
             <ul>
-              <Userslist/>
+              {filteredUsers && (filteredUsers.map((item) => {
+                const fullName = `${item.firstName} ${item.lastName}`;
+                return (
+                  <Userslist key={item.id} name={fullName} role={item.role} id={item.id} />
+                );
+              }))}
+
+              {/* <Userslist name={firstName+ ' '+ lastName} role={role} /> */}
             </ul>
+            {loading && <div className={classes.loader}>
+              <PropagateLoader color="#636363" />
+            </div>}
           </div>
           <button>Invite New User</button>
           <a href="#test">View All Pending Invitations</a>
