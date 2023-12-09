@@ -3,6 +3,7 @@ import classes from "./navbar.module.css";
 import ProfileImage from "./profileImage.jpg";
 import BackgroundImage from "./bg-1.jpg";
 import { FaBars } from "react-icons/fa";
+import Next from "./next.png"
 
 const Navbar = ({ toggleSidebar, sidebarVisible, activeComponent, userObject }) => {
   const [isContainerVisible, setIsContainerVisible] = useState(false);
@@ -52,7 +53,18 @@ const Navbar = ({ toggleSidebar, sidebarVisible, activeComponent, userObject }) 
               />
               <div>{firstName} {lastName}</div>
             </div>
-            This is the popped container.
+            <ul>
+              <li>
+                <div>
+                  <div></div>
+                  <div>
+                    <h4>My Profile</h4>
+                    <p>Account Settings and more</p>
+                  </div>
+                </div>
+                <img src={Next} alt="Next" />
+              </li>
+            </ul>
           </div>
         )}
       </div>

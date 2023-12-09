@@ -6,8 +6,9 @@ import Next from "./next.png"
 
 
 export default function Userslist(props) {
+  
   return (
-    <li className={classes.listWrap} id={props.id}>
+    <li className={classes.listWrap} id={props.id} onClick={props.handleOnClickList}>
       <div>
         <span style={{backgroundImage: `url(${User})`}}></span>
         <span>{props.name}</span>

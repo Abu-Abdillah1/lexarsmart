@@ -13,7 +13,13 @@ export default function Users({userObject, token}) {
   const [filteredValue, setFilteredValue] = useState('all')
   const [loading, setLoading] = useState(false);
   const [allUsers, setAllUsers] = useState(null)
-  const [filteredUsers, setFilteredUsers]= useState(null)
+  const [filteredUsers, setFilteredUsers] = useState(null)
+  const[userId, setUserId]=useState(null)
+  const handleOnClickList = (e) => {
+    const listId = e.target.getAttribute('id')
+    // console.log(listId)
+    setUserId(listId)
+  }
   // const [users, set]
 
 
@@ -45,7 +51,7 @@ export default function Users({userObject, token}) {
 
         axios.get('https://lexarsmart.onrender.com/api/v1/users', config)
           .then(response => {
-            console.log(response.data);
+            // console.log(response.data);
             setAllUsers(response.data.data);
             setLoading(!loading);
             // setFilteredUsers(response.data.data)
@@ -111,7 +117,7 @@ export default function Users({userObject, token}) {
               {filteredUsers && (filteredUsers.map((item) => {
                 const fullName = `${item.firstName} ${item.lastName}`;
                 return (
-                  <Userslist key={item.id} name={fullName} role={item.role} id={item.id} />
+                  <Userslist key={item.id} name={fullName} role={item.role} id={item.id} handleOnClickList={handleOnClickList} />
                 );
               }))}
 
