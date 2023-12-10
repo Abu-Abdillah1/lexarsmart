@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/lexarsmart/static/css/main.22d32d59.css",
-    "main.js": "/lexarsmart/static/js/main.6ec94686.js",
+    "main.js": "/lexarsmart/static/js/main.a75dd8fb.js",
     "static/js/787.af9e2ac9.chunk.js": "/lexarsmart/static/js/787.af9e2ac9.chunk.js",
     "static/media/logo.png": "/lexarsmart/static/media/logo.5bd153375af45e4047d8.png",
     "static/media/profileImage.jpg": "/lexarsmart/static/media/profileImage.955f78dd2611e5badaeb.jpg",
@@ -9,11 +9,11 @@
     "static/media/bg-1.jpg": "/lexarsmart/static/media/bg-1.8aaadee60c455a2260b1.jpg",
     "index.html": "/lexarsmart/index.html",
     "main.22d32d59.css.map": "/lexarsmart/static/css/main.22d32d59.css.map",
-    "main.6ec94686.js.map": "/lexarsmart/static/js/main.6ec94686.js.map",
+    "main.a75dd8fb.js.map": "/lexarsmart/static/js/main.a75dd8fb.js.map",
     "787.af9e2ac9.chunk.js.map": "/lexarsmart/static/js/787.af9e2ac9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.22d32d59.css",
-    "static/js/main.6ec94686.js"
+    "static/js/main.a75dd8fb.js"
   ]
 }
