@@ -68,7 +68,7 @@ export default function Users({userObject, token}) {
         setLoading(false);
       }
     }
-  }, [token, allUsers, filteredValue]);
+  }, [token, allUsers, filteredValue, loading]);
 
 
   // console.log(allUsers)
