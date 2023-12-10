@@ -88,7 +88,7 @@ function App() {
           path="/dashboard/*"
           element={
             isUserLoggedIn() ? (
-              <Dashboard userObject={userObject} token={token} />
+              <Dashboard userObject={userObject} token={token} setLoggedIn={setLoggedIn} />
             ) : (
               <Navigate to="/" replace={true} />
             )
