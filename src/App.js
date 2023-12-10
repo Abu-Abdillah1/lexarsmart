@@ -1,16 +1,27 @@
-// import logo from './logo.svg';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from './components/login';
 import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import Dashboard from './components/dashboard';
-import axios from 'axios'
+import axios from 'axios';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [token, setToken] = useState(localStorage.getItem('token') || null);
-  const [userObject, setUserObject] = useState(JSON.parse(localStorage.getItem('userObject')) || null);
+  const [token, setToken] = useState(null);
+  const [userObject, setUserObject] = useState(null);
+
+  // Check for login status in localStorage on initial render
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    const storedUserObject = localStorage.getItem('userObject');
+
+    if (storedToken && storedUserObject) {
+      setToken(storedToken);
+      setUserObject(JSON.parse(storedUserObject));
+      setLoggedIn(true);
+    }
+  }, []);
 
   // Track the last activity time
   const lastActivityTime = useRef(Date.now());
@@ -19,9 +30,9 @@ function App() {
   const navigate = useNavigate();
 
   // Check if the user is logged in and has not exceeded the inactivity time limit
-  const isUserLoggedIn = useCallback(() => {
+  const isUserLoggedIn = () => {
     return loggedIn && Date.now() - lastActivityTime.current < 30 * 60 * 1000;
-  },[loggedIn]);
+  };
 
   // Update the last activity time when there's user interaction
   const handleUserActivity = () => {
@@ -36,49 +47,52 @@ function App() {
         navigate('/');
       }
     };
-    // if (loggedIn) {
-    //   navigate('/dashboard');
-    // }
+
     if (token) {
-      console.log('token set', token)
+      // Save login status and token to localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('userObject', JSON.stringify(userObject));
 
       const config = {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       };
 
-      axios.get('https://lexarsmart.onrender.com/api/v1/users/profile', config)
-        .then(response => {
-          console.log(response.data);
-          setUserObject(response.data)
+      axios
+        .get('https://lexarsmart.onrender.com/api/v1/users/profile', config)
+        .then((response) => {
+          setUserObject(response.data);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error('Error:', error);
         });
-      
     }
 
     const inactivityTimer = setInterval(checkInactivity, 60 * 10000); // Check every minute
 
     // Clear the timer when the component is unmounted
     return () => clearInterval(inactivityTimer);
-    
-  }, [navigate, token, userObject,isUserLoggedIn]);
-  // console.log(userObject)
-  
+  }, [navigate, token, userObject, loggedIn]);
 
   return (
     <div className="App" onMouseMove={handleUserActivity} onClick={handleUserActivity}>
       {/* Routes */}
       <Routes>
         <Route
-          path='/' exact
+          path="/"
+          exact
           element={<LoginPage loggedIn={loggedIn} token={token} setToken={setToken} setLoggedIn={setLoggedIn} />}
         />
         <Route
           path="/dashboard/*"
-          element={isUserLoggedIn() ? <Dashboard userObject={ userObject} token={token} setLoggedIn={setLoggedIn} /> : <Navigate to="/" replace={true} />}
+          element={
+            isUserLoggedIn() ? (
+              <Dashboard userObject={userObject} token={token} />
+            ) : (
+              <Navigate to="/" replace={true} />
+            )
+          }
         />
       </Routes>
     </div>
