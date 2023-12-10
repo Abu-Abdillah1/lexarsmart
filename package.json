@@ -1,7 +1,7 @@
 {
 	"name": "lexarsmart",
 	"version": "0.1.0",
-	"homepage": "https://lexarsmart.vercel.app/",
+	"homepage": ".",
 	"private": true,
 	"dependencies": {
 		"@fontsource/karla": "^5.0.17",
