@@ -1,0 +1,20 @@
+.overlay{
+  position: fixed;
+  width: 100vw;
+  height: 100svh;
+  background: rgba(0, 0, 0, 0.308);
+  /* color: #fff; */
+  top: 0;
+  left: 0;
+  z-index: 4;
+}
+.container{
+  background-color: #fff;
+  width: 60%;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  min-height: 30vh;
+  border-radius: 8px;
+}

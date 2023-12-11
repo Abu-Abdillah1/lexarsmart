@@ -5,6 +5,7 @@ import Search from "./magnifying-glass.png"
 import Userslist from "./usersList"
 import axios from 'axios'
 import { PropagateLoader } from "react-spinners";
+import UserPop from "./userPop/userPop"
 
 
 
@@ -14,11 +15,14 @@ export default function Users({userObject, token}) {
   const [loading, setLoading] = useState(false);
   const [allUsers, setAllUsers] = useState(null)
   const [filteredUsers, setFilteredUsers] = useState(null)
-  const[userId, setUserId]=useState(null)
+  const [userId, setUserId] = useState(null)
+  const [userPop, setUserPop] = useState(false)
+  const [userDetails, setUserDetails]= useState(null)
   const handleOnClickList = (e) => {
     const listId = e.target.getAttribute('id')
     // console.log(listId)
     setUserId(listId)
+    setUserPop(!userPop)
   }
   // const [users, set]
 
@@ -41,6 +45,24 @@ export default function Users({userObject, token}) {
     setLoading(!loading)
   }
   useEffect(() => {
+    if (userId) {
+      // console.log(userId)
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      axios
+        .get(`https://lexarsmart.onrender.com/api/v1/users/${userId}`, config)
+        .then((response) => {
+          console.log(response.data)
+          setUserDetails(response.data.data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
     if (token) {
       setLoading(!loading)
       const config = {
@@ -68,10 +90,10 @@ export default function Users({userObject, token}) {
         setLoading(false);
       }
     }
-  }, [token, allUsers, filteredValue, loading]);
+  }, [token, allUsers, filteredValue, loading, userId]);
 
 
-  // console.log(allUsers)
+  // console.log(userDetails)
 
   // console.log(filteredValue)
   return (
@@ -131,6 +153,7 @@ export default function Users({userObject, token}) {
           <a href="#test">View All Pending Invitations</a>
         </div>
       </div>
+      {userPop && <UserPop userId={ userId} userDetails={userDetails} />}
     </div>
   )
 }
