@@ -153,7 +153,7 @@ export default function Users({userObject, token}) {
           <a href="#test">View All Pending Invitations</a>
         </div>
       </div>
-      {userPop && <UserPop userId={ userId} userDetails={userDetails} />}
+      {userPop && <UserPop userId={ userId} userDetails={userDetails} toggleUserPop={setUserPop} />}
     </div>
   )
 }

@@ -76,7 +76,7 @@ function App() {
   }, [navigate, token, userObject, loggedIn]);
 
   return (
-    <div className="App" onMouseMove={handleUserActivity} onClick={handleUserActivity}>
+    <div className="App" onMouseMove={handleUserActivity} onClick={handleUserActivity}> 
       {/* Routes */}
       <Routes>
         <Route

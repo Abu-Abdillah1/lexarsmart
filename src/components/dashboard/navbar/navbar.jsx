@@ -8,6 +8,7 @@ import Carlendar from "./calendar.png"
 import ShoopingBasket from "./shopping-basket.png"
 import CreditCard from "./credit-card.png"
 import Lifebuoy from "./lifebuoy.png"
+import TerritoryTop from "../territory/territoryTop";
 
 const Navbar = ({ toggleSidebar, sidebarVisible, activeComponent, userObject, setLoggedIn }) => {
   const [isContainerVisible, setIsContainerVisible] = useState(false);
@@ -120,11 +121,11 @@ const Navbar = ({ toggleSidebar, sidebarVisible, activeComponent, userObject, se
         )}
       </div>
       <div>
-        <h5>
+        {activeComponent==='territory'?<TerritoryTop/>: <h5>
           {activeComponent === 'dashboard' && 'Dashboard'}
           {activeComponent === 'users' && 'Users'}
           {activeComponent === 'territory' && 'Territory'}
-        </h5>
+        </h5>}
       </div>
     </div>
   );
